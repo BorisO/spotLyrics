@@ -18,15 +18,8 @@ headers = {
 	'Authorization': 'Bearer 8wA06k0BjvzSVWaJ2JQ0TgCo3xeUgN7BEF9AQPqu17H_QV6sGoESRr89PFc08wcY'}
 
 # get a spotify token
-def getToken(scopeKey):
-	'''
-	if len(sys.argv) > 1:
-																	username = sys.argv[1]
-	else:
-																	print("Usage: %s username" % (sys.argv[0],))
-																	sys.exit()
-	'''
-	username = "12122199107"
+def getToken(scopeKey, username):
+
 	token = util.prompt_for_user_token(username, scopes[scopeKey], client_id='99774f0c8a7045198b95e074e729edc3',
 									   client_secret='fae5be446b884359b833711a81ac2c7e', redirect_uri='http://localhost/')
 	return token
@@ -92,21 +85,22 @@ def getSongApiPath(name, artist):
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(
 		description='Spotify Lyric Searcher', add_help=False)
+	parser.add_argument('query', help='Spotify account ID')
 	parser.add_argument('-c', '--current', action='store_true', default=False,
 						help='Print Lyrics for currently playing Spotify song.')
 	parser.add_argument('-r', '--recent', action='store_true',
 						default=False, help='Get list of recently played songs.')
-	parser.add_argument(
-		'-h', '--help', action='store_true', default=False, help='Possible args: \'-c\' or \'-r\'')
 
-	if len(sys.argv) < 2:
+	if len(sys.argv) < 3:
 		parser.print_help()
 		sys.exit(1)
 
 	args = parser.parse_args()
 
+	username = args.query
+
 	if args.current is True:
-		token = getToken('currentlyPlaying')
+		token = getToken('currentlyPlaying', username)
 		if token:
 			currSong = getCurrentSong(token)
 			songName = currSong['name']
@@ -115,7 +109,7 @@ if __name__ == "__main__":
 			print(getLyricsFromApi(apiPath))
 
 	elif args.recent is True:
-		token = getToken('recentlyPlayed')
+		token = getToken('recentlyPlayed', username)
 		recentDict = {}
 		if token:
 			recents = getRecentSongs(token)
