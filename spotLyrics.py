@@ -106,6 +106,7 @@ if __name__ == "__main__":
 			songName = currSong['name']
 			artist = currSong['artist']
 			apiPath = getSongApiPath(songName, artist)
+			print(str(songName) + ' - ' + str(artist))
 			print(getLyricsFromApi(apiPath))
 
 	elif args.recent is True:
@@ -119,6 +120,7 @@ if __name__ == "__main__":
 		query = int(input('Enter number of the song you want lyrics for: '))
 		currSong = recentDict[int(query)]
 		songName, artist = currSong.split(' - ')
+		print(str(songName) + ' - ' + str(artist))
 		apiPath = getSongApiPath(str(songName), str(artist))
 		if apiPath is not None:
 			print(getLyricsFromApi(apiPath))
