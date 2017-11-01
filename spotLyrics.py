@@ -5,6 +5,12 @@ import requests
 from bs4 import BeautifulSoup
 import argparse
 
+# you must override the config file with your own keys
+from config.config import geniusToken
+from config.config import geniusHeader
+from config.config import spotifyClient_Id
+from config.config import spotifyClient_Secret
+
 # scopes for spotify api
 scopes = {
 	'recentlyPlayed': 'user-read-recently-played',
@@ -12,16 +18,15 @@ scopes = {
 }
 
 # genius api tokens and etc.
-token = '8wA06k0BjvzSVWaJ2JQ0TgCo3xeUgN7BEF9AQPqu17H_QV6sGoESRr89PFc08wcY'
+token = geniusToken
 base_url = "https://api.genius.com"
-headers = {
-	'Authorization': 'Bearer 8wA06k0BjvzSVWaJ2JQ0TgCo3xeUgN7BEF9AQPqu17H_QV6sGoESRr89PFc08wcY'}
+headers = geniusHeader
 
 # get a spotify token
 def getToken(scopeKey, username):
 
-	token = util.prompt_for_user_token(username, scopes[scopeKey], client_id='99774f0c8a7045198b95e074e729edc3',
-									   client_secret='fae5be446b884359b833711a81ac2c7e', redirect_uri='http://localhost/')
+	token = util.prompt_for_user_token(username, scopes[scopeKey], client_id=spotifyClient_Id,
+									   client_secret=spotifyClient_Secret, redirect_uri='http://localhost/')
 	return token
 
 # get recent songs from current users spotify

@@ -1,3 +1,6 @@
+# My Keys
+config/myConfig.py
+
 VS Code
 .vscode/*
 !.vscode/settings.json
